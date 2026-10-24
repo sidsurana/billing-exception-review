@@ -1,0 +1,10 @@
+{
+  "name": "billing-exception-review",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test engine.test.mjs"
+  },
+  "description": "Review synthetic billing discrepancies and owner-specific investigation steps.",
+  "license": "MIT"
+}

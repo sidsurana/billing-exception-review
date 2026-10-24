@@ -1,0 +1,14 @@
+(function(root){'use strict';
+function asText(doc){return [doc.title,doc.subtitle,'',...doc.sections.flatMap(s=>[s.title,...s.paragraphs,'']),'Independent synthetic work sample. No external action.'].join('\n');}
+async function pdf(doc){const {PDFDocument,PDFName,rgb}=PDFLib,pdf=await PDFDocument.create();pdf.registerFontkit(fontkit);const [regular,bold]=await Promise.all(['Carlito-Regular.ttf','Carlito-Bold.ttf'].map(async name=>pdf.embedFont(await (await fetch('./vendor/'+name)).arrayBuffer(),{subset:true})));const ink=rgb(.13,.12,.15),muted=rgb(.4,.38,.43),accent=rgb(.36,.24,.53);let page,y;
+function newPage(){page=pdf.addPage([612,792]);y=735;page.drawLine({start:{x:50,y:756},end:{x:562,y:756},thickness:2,color:accent});}
+function wrap(text,font,size){const lines=[];for(const para of String(text).split('\n')){let line='';for(const word of para.split(/\s+/)){if(!word)continue;if(font.widthOfTextAtSize((line?line+' ':'')+word,size)<=512){line+=(line?' ':'')+word;continue}if(line){lines.push(line);line=''}let part='';for(const char of word){if(font.widthOfTextAtSize(part+char,size)>512&&part){lines.push(part);part=''}part+=char}line=part}lines.push(line)}return lines;}
+function draw(text,size=10.5,font=regular,color=ink,gap=7){for(const line of wrap(text,font,size)){if(y<size+55)newPage();page.drawText(line,{x:50,y,size,font,color});y-=size*1.35;}y-=gap;}
+newPage();draw(doc.title,23,bold);draw(doc.subtitle,10,regular,muted,15);
+for(const section of doc.sections){if(y<110)newPage();draw(section.title,13,bold,accent,5);for(const para of section.paragraphs)draw(para);y-=5;}
+const pages=pdf.getPages();pages.forEach((p,i)=>p.drawText(`Independent synthetic work sample  |  ${i+1} / ${pages.length}`,{x:50,y:30,size:8.5,font:regular,color:muted}));
+const info=pdf.context.lookup(pdf.context.trailerInfo.Info);if(info)for(const key of ['Author','Creator','Producer','CreationDate','ModDate','Keywords','Subject'])info.delete(PDFName.of(key));pdf.setTitle(doc.title);pdf.setLanguage('en-US');return pdf.save({useObjectStreams:true});}
+function download(bytes,name){const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+async function copy(doc){const text=asText(doc);try{await navigator.clipboard.writeText(text);return true}catch{const box=document.createElement('textarea');box.value=text;box.setAttribute('aria-label','Select and copy this brief');box.style.cssText='position:fixed;inset:20%;width:60%;height:60%;z-index:1000;background:white;color:black;padding:20px';document.body.append(box);box.focus();box.select();const copied=document.execCommand('copy');box.remove();if(!copied)throw Error('Clipboard access is unavailable. Please download the readable PDF instead.');return true;}}
+root.ReadableExport={asText,pdf,download,copy};
+})(window);

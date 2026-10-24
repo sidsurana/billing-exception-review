@@ -1,0 +1,14 @@
+.env
+.env.*
+!.env.example
+.vercel/
+node_modules/
+.next/
+dist/
+public/
+test-results*/
+playwright-report/
+*.log
+*.tsbuildinfo
+__pycache__/
+.DS_Store

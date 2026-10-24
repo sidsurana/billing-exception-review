@@ -1,0 +1,53 @@
+{
+  "project": "rentana",
+  "title": "Investigate a billing exception",
+  "description": "Explain reconciliation exceptions and propose owner-specific investigation steps without changing financial records.",
+  "capability": "billing-exceptions",
+  "sections": [
+    {
+      "id": "exceptions",
+      "title": "Exception diagnosis"
+    },
+    {
+      "id": "resolution",
+      "title": "Owner investigation checklist"
+    },
+    {
+      "id": "outcomes",
+      "title": "Customer-outcome explanation"
+    }
+  ],
+  "gatewayTask": "cos.rentana.billing-exceptions.v1",
+  "gatewayProject": "sid-cos-rentana-cash-20261021",
+  "company": "Rentana",
+  "purpose": "Turn a billing discrepancy into a concise owner-specific investigation plan.",
+  "label": "Synthetic billing evidence",
+  "notesKey": "reconciliation",
+  "example": "Synthetic example: A usage import repeats event U-102 for Birch. Cedar is missing its signed-off month-end usage snapshot. Dune arrived after the billing cutoff. Draft invoices have not been sent. Finance owns Cedar; Data Ops owns deduplication and late-record validation.",
+  "support": {
+    "contracts": "No executed contracts or production ledger supplied. Ask for evidence rather than invent terms.",
+    "roi": "No customer ROI or comparable baseline supplied. Do not infer savings or product causality.",
+    "policy": "One-time fees stay outside ARR. Missing or late inputs require human review. No QuickBooks write or invoice sending."
+  },
+  "color": "#7048c6",
+  "bg": "#faf8ff",
+  "accent": "#e4dafa",
+  "url": "https://www.rentana.io",
+  "evidenceIds": [
+    "reconciliation",
+    "contracts",
+    "roi",
+    "policy"
+  ],
+  "paused": false,
+  "sources": [
+    {
+      "label": "Rentana \u2014 role responsibilities",
+      "url": "https://jobs.ashbyhq.com/rentana-io/0340ebd9-b634-4857-8939-ff9559dcbeef"
+    },
+    {
+      "label": "Rentana \u2014 product context",
+      "url": "https://www.rentana.io"
+    }
+  ]
+}
